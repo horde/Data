@@ -18,6 +18,7 @@ matrix:
       - rcs
 before_install:
   - phpenv config-rm xdebug.ini || echo "XDebug not enabled"
+  - pear channel-discover pear.horde.org
   - pear install channel://pear.horde.org/Horde_Test
   - pear install package.xml
 script:
