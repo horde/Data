@@ -51,7 +51,7 @@
        <file name="WAB.csv" role="doc" />
        <file name="Yahoo.csv" role="doc" />
       </dir> <!-- /doc/Horde/Data/examples -->
-      <file name="UPGRADING" role="doc" />
+      <file name="UPGRADING.rst" role="doc" />
      </dir> <!-- /doc/Horde/Data -->
     </dir> <!-- /doc/Horde -->
    </dir> <!-- /doc -->
@@ -465,7 +465,7 @@
    <install as="examples/WAB-selectable.csv" name="doc/Horde/Data/examples/WAB-selectable.csv" />
    <install as="examples/WAB.csv" name="doc/Horde/Data/examples/WAB.csv" />
    <install as="examples/Yahoo.csv" name="doc/Horde/Data/examples/Yahoo.csv" />
-   <install as="UPGRADING" name="doc/Horde/Data/UPGRADING" />
+   <install as="UPGRADING.rst" name="doc/Horde/Data/UPGRADING.rst" />
    <install as="Horde/Data.php" name="lib/Horde/Data.php" />
    <install as="Horde/Data/Base.php" name="lib/Horde/Data/Base.php" />
    <install as="Horde/Data/Csv.php" name="lib/Horde/Data/Csv.php" />
