@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>yes</active>
  </developer>
- <date>2017-10-17</date>
+ <date>2017-10-20</date>
  <version>
   <release>2.1.5</release>
   <api>2.1.0</api>
@@ -377,7 +377,6 @@
       <file name="bootstrap.php" role="test" />
       <file name="CsvTest.php" role="test" />
       <file name="GetCsvTest.php" role="test" />
-      <file name="phpunit.xml" role="test" />
      </dir> <!-- /test/Horde/Data -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
@@ -600,7 +599,6 @@
    <install as="Horde/Data/fixtures/simple_dos.csv" name="test/Horde/Data/fixtures/simple_dos.csv" />
    <install as="Horde/Data/fixtures/simple_unix.csv" name="test/Horde/Data/fixtures/simple_unix.csv" />
    <install as="Horde/Data/GetCsvTest.php" name="test/Horde/Data/GetCsvTest.php" />
-   <install as="Horde/Data/phpunit.xml" name="test/Horde/Data/phpunit.xml" />
   </filelist>
  </phprelease>
  <changelog>
@@ -1014,7 +1012,7 @@ Converted to package.xml 2.0 for pear.horde.org
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-17</date>
+   <date>2017-10-20</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
