@@ -1,5 +1,5 @@
 {
-    "name": "horde/horde-data",
+    "name": "horde/data",
     "description": "Horde Data API",
     "type": "library",
     "homepage": "https://pear.horde.org",
@@ -26,16 +26,16 @@
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Browser": "^2@stable",
-        "pear-pear.horde.org/Horde_Exception": "^2@stable",
-        "pear-pear.horde.org/Horde_Icalendar": "^2@stable",
-        "pear-pear.horde.org/Horde_Mail": "^2@stable",
-        "pear-pear.horde.org/Horde_Mime": "^2@stable",
-        "pear-pear.horde.org/Horde_Translation": "^2.2@stable",
-        "pear-pear.horde.org/Horde_Util": "^2@stable"
+        "pear-pear.horde.org/Horde_Browser": "^2",
+        "pear-pear.horde.org/Horde_Exception": "^2",
+        "pear-pear.horde.org/Horde_Icalendar": "^2",
+        "pear-pear.horde.org/Horde_Mail": "^2",
+        "pear-pear.horde.org/Horde_Mime": "^2",
+        "pear-pear.horde.org/Horde_Translation": "^2.2",
+        "pear-pear.horde.org/Horde_Util": "^2"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Test": "^2.1@stable"
+        "pear-pear.horde.org/Horde_Test": "^2.1"
     },
     "replace": {
         "pear-pear.horde.org/Horde_Data": "2.*",
