@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>yes</active>
  </developer>
- <date>2016-02-01</date>
+ <date>2017-10-30</date>
  <version>
   <release>2.1.5</release>
   <api>2.1.0</api>
@@ -51,6 +51,7 @@
        <file name="WAB.csv" role="doc" />
        <file name="Yahoo.csv" role="doc" />
       </dir> <!-- /doc/Horde/Data/examples -->
+      <file name="CHANGES" role="doc" />
       <file name="COPYING" role="doc" />
       <file name="UPGRADING" role="doc" />
      </dir> <!-- /doc/Horde/Data -->
@@ -456,6 +457,7 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="CHANGES" name="doc/Horde/Data/CHANGES" />
    <install as="COPYING" name="doc/Horde/Data/COPYING" />
    <install as="UPGRADING" name="doc/Horde/Data/UPGRADING" />
    <install as="examples/Eudora.txt" name="doc/Horde/Data/examples/Eudora.txt" />
@@ -1014,7 +1016,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2016-02-01</date>
+   <date>2017-10-30</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
