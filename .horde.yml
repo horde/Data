@@ -20,6 +20,12 @@ authors:
     email: jan@horde.org
     active: true
     role: lead
+  -
+    name: Chuck Hagenbuch
+    user: chuck
+    email: chuck@horde.org
+    active: false
+    role: developer
 version:
   release: 2.1.5
   api: 2.1.0
