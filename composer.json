@@ -1,8 +1,8 @@
 {
     "name": "horde/data",
-    "description": "Horde Data API",
+    "description": "Data import and export library",
     "type": "library",
-    "homepage": "https://pear.horde.org",
+    "homepage": "https://www.horde.org/libraries/Horde_Data",
     "license": "LGPL-2.1",
     "authors": [
         {
@@ -17,7 +17,7 @@
         }
     ],
     "version": "2.1.5",
-    "time": "2017-10-20",
+    "time": "2017-11-11",
     "repositories": [
         {
             "type": "pear",
