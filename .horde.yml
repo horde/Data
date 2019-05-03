@@ -3,13 +3,7 @@ id: Data
 name: Data
 full: Data import and export library
 description: |
-  A data import and export API, with backends for:
-  * CSV
-  * TSV
-  * iCalendar
-  * vCard
-  * vNote
-  * vTodo
+  A data import and export library, with backends for: CSV, TSV, iCalendar, vCard, vNote, and vTodo
 list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Data
