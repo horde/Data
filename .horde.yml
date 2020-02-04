@@ -21,7 +21,7 @@ authors:
     active: false
     role: developer
 version:
-  release: 2.1.5
+  release: 2.1.6
   api: 2.1.0
 state:
   release: stable
