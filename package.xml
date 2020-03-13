@@ -17,7 +17,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </developer>
- <date>2020-02-04</date>
+ <date>2020-03-13</date>
  <version>
   <release>2.1.6</release>
   <api>2.1.0</api>
@@ -377,6 +377,7 @@
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
    <file name="LICENSE" role="doc" />
+   <file name="README.rst" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -563,6 +564,7 @@
    <install as="locale/zh_CN/LC_MESSAGES/Horde_Data.po" name="locale/zh_CN/LC_MESSAGES/Horde_Data.po" />
    <install as="locale/zh_TW/LC_MESSAGES/Horde_Data.mo" name="locale/zh_TW/LC_MESSAGES/Horde_Data.mo" />
    <install as="locale/zh_TW/LC_MESSAGES/Horde_Data.po" name="locale/zh_TW/LC_MESSAGES/Horde_Data.po" />
+   <install as="README.rst" name="README.rst" />
    <install as="Horde/Data/AllTests.php" name="test/Horde/Data/AllTests.php" />
    <install as="Horde/Data/bootstrap.php" name="test/Horde/Data/bootstrap.php" />
    <install as="Horde/Data/CsvTest.php" name="test/Horde/Data/CsvTest.php" />
@@ -1094,7 +1096,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2020-02-04</date>
+   <date>2020-03-13</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
