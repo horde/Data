@@ -1,7 +1,7 @@
 {
     "name": "horde/data",
     "description": "Data import and export library",
-    "type": "library",
+    "type": "horde-library",
     "homepage": "https://www.horde.org/libraries/Horde_Data",
     "license": "LGPL-2.1",
     "authors": [
@@ -17,29 +17,26 @@
         }
     ],
     "version": "2.1.6",
-    "time": "2020-03-13",
+    "time": "2020-10-27",
     "repositories": [
         {
-            "type": "pear",
-            "url": "https://pear.horde.org"
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
+        "horde/horde-installer-plugin": "dev-master",
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Browser": "^2",
-        "pear-pear.horde.org/Horde_Exception": "^2",
-        "pear-pear.horde.org/Horde_Icalendar": "^2",
-        "pear-pear.horde.org/Horde_Mail": "^2",
-        "pear-pear.horde.org/Horde_Mime": "^2",
-        "pear-pear.horde.org/Horde_Translation": "^2.2",
-        "pear-pear.horde.org/Horde_Util": "^2"
+        "horde/browser": "dev-master",
+        "horde/exception": "dev-master",
+        "horde/icalendar": "dev-master",
+        "horde/mail": "dev-master",
+        "horde/mime": "dev-master",
+        "horde/translation": "dev-master",
+        "horde/util": "dev-master"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Test": "^2.1"
-    },
-    "replace": {
-        "pear-pear.horde.org/Horde_Data": "2.*",
-        "pear-horde/Horde_Data": "2.*"
+        "horde/test": "^2.1"
     },
     "autoload": {
         "psr-0": {
