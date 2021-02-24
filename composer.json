@@ -41,9 +41,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Data": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Data\\": "src/"
         }
     }
 }
