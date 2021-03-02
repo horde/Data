@@ -7,7 +7,7 @@
  * @subpackage UnitTests
  */
 
-class Horde_Data_CsvTest extends PHPUnit_Framework_TestCase
+class Horde_Data_CsvTest extends PHPUnit\Framework\TestCase
 {
     public function testImportFile()
     {
