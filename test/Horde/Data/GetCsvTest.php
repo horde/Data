@@ -6,14 +6,14 @@
  * @package    Data
  * @subpackage UnitTests
  */
-
-class Horde_Data_GetCsvTest extends PHPUnit\Framework\TestCase
+namespace Horde\Data;
+class GetCsvTest extends \PHPUnit\Framework\TestCase
 {
     protected function readCsv($file, $conf = array())
     {
         $fp = fopen(__DIR__ . '/fixtures/getcsv/' . $file, 'r');
         $data = array();
-        while ($res = Horde_Data_Csv::getCsv($fp, $conf)) {
+        while ($res = \Horde_Data_Csv::getCsv($fp, $conf)) {
             $data[] = $res;
         }
         return $data;

@@ -6,12 +6,13 @@
  * @package    Data
  * @subpackage UnitTests
  */
+namespace Horde\Data;
 
-class Horde_Data_CsvTest extends PHPUnit\Framework\TestCase
+class CsvTest extends \PHPUnit\Framework\TestCase
 {
     public function testImportFile()
     {
-        $data = new Horde_Data_Csv(new Horde_Data_Storage_Mock());
+        $data = new \Horde_Data_Csv(new \Horde_Data_Storage_Mock());
 
         $expected = array(array(0 => 'one',
                                 1 => 'two',
