@@ -4,7 +4,7 @@
     "description": "Data import and export library",
     "type": "library",
     "homepage": "https://www.horde.org/libraries/Horde_Data",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-only",
     "authors": [
         {
             "name": "Jan Schneider",
@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php": "^7",
+        "php": "^7.4 || ^8",
         "horde/browser": "^3 || dev-FRAMEWORK_6_0",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
