@@ -7,7 +7,7 @@
  * @subpackage UnitTests
  */
 
-class Horde_Data_GetCsvTest extends PHPUnit_Framework_TestCase
+class Horde_Data_GetCsvTest extends Horde_Test_Case
 {
     protected function readCsv($file, $conf = array())
     {
