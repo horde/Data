@@ -323,17 +323,11 @@ class Horde_Data_Csv extends Horde_Data_Base
             $params['quote'] = '"';
         }
 
-        // Detect Mac line endings.
-        $old = ini_get('auto_detect_line_endings');
-        ini_set('auto_detect_line_endings', 1);
-
         do {
             $row = strlen($params['quote'])
                 ? fgetcsv($file, 0, $params['separator'], $params['quote'], $params['escape'])
                 : fgetcsv($file, 0, $params['separator']);
         } while ($row && is_null($row[0]));
-
-        ini_set('auto_detect_line_endings', $old);
 
         if ($row) {
             $row = (strlen($params['quote']) && strlen($params['escape']))
