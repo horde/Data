@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -55,20 +56,25 @@ class Horde_Data_Csv extends Horde_Data_Base
      *                field/column names as the keys.
      * @throws Horde_Data_Exception
      */
-    public function importFile($filename, $header = false, $sep = ',',
-                               $quote = '', $fields = null,
-                               $import_mapping = array(), $charset = null,
-                               $crlf = null)
-    {
+    public function importFile(
+        $filename,
+        $header = false,
+        $sep = ',',
+        $quote = '',
+        $fields = null,
+        $import_mapping = [],
+        $charset = null,
+        $crlf = null
+    ) {
         if (empty($fields)) {
-            return array();
+            return [];
         }
 
-        $conf = array(
+        $conf = [
             'length' => $fields,
             'quote' => $quote,
-            'separator' => $sep
-        );
+            'separator' => $sep,
+        ];
 
         $fp = @fopen($filename, 'r');
         if (!$fp) {
@@ -79,14 +85,14 @@ class Horde_Data_Csv extends Horde_Data_Base
         if ($header) {
             $head = self::getCsv($fp, $conf);
             if (!$head) {
-                return array();
+                return [];
             }
             if (!empty($charset)) {
                 $head = Horde_String::convertCharset($head, $charset, 'UTF-8');
             }
         }
 
-        $data = array();
+        $data = [];
         while ($line = self::getCsv($fp, $conf)) {
             if (!empty($charset)) {
                 $line = Horde_String::convertCharset($line, $charset, 'UTF-8');
@@ -94,7 +100,7 @@ class Horde_Data_Csv extends Horde_Data_Base
             if (!isset($head)) {
                 $data[] = $line;
             } else {
-                $newline = array();
+                $newline = [];
                 for ($i = 0; $i < count($head); $i++) {
                     if (isset($import_mapping[$head[$i]])) {
                         $head[$i] = $import_mapping[$head[$i]];
@@ -120,9 +126,11 @@ class Horde_Data_Csv extends Horde_Data_Base
      *
      * @return string  The CSV data.
      */
-    public function exportData($data, $header = false,
-                               $export_mapping = array())
-    {
+    public function exportData(
+        $data,
+        $header = false,
+        $export_mapping = []
+    ) {
         if (!is_array($data) || count($data) == 0) {
             return '';
         }
@@ -168,9 +176,12 @@ class Horde_Data_Csv extends Horde_Data_Base
      * @param boolean $header   If true, the rows of $data are associative
      *                          arrays with field names as their keys.
      */
-    public function exportFile($filename, $data, $header = false,
-                               $export_mapping = array())
-    {
+    public function exportFile(
+        $filename,
+        $data,
+        $header = false,
+        $export_mapping = []
+    ) {
         if (!isset($this->_browser)) {
             throw new LogicException('Missing browser parameter.');
         }
@@ -198,96 +209,96 @@ class Horde_Data_Csv extends Horde_Data_Base
      * @throws Horde_Data_Exception
      * @throws Horde_Data_Exception_Charset
      */
-    public function nextStep($action, array $param = array())
+    public function nextStep($action, array $param = [])
     {
         switch ($action) {
-        case Horde_Data::IMPORT_FILE:
-            parent::nextStep($action, $param);
+            case Horde_Data::IMPORT_FILE:
+                parent::nextStep($action, $param);
 
-            /* Move uploaded file so that we can read it again in the next
-               step after the user gave some format details. */
-            $file_name = $_FILES['import_file']['tmp_name'];
-            if (($file_data = file_get_contents($file_name)) === false) {
-                throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded file could not be saved."));
-            }
-
-            /* Do charset checking now, if requested. */
-            if (isset($param['check_charset'])) {
-                $charset = isset($this->_vars->charset)
-                    ? Horde_String::lower($this->_vars->charset)
-                    : 'utf-8';
-
-                switch ($charset) {
-                case 'utf-8':
-                    $error = !Horde_String::validUtf8($file_data);
-                    break;
-
-                default:
-                    $error = ($file_data != Horde_String::convertCharset(Horde_String::convertCharset($file_data, $charset, 'UTF-8'), 'UTF-8', $charset));
-                    break;
+                /* Move uploaded file so that we can read it again in the next
+                   step after the user gave some format details. */
+                $file_name = $_FILES['import_file']['tmp_name'];
+                if (($file_data = file_get_contents($file_name)) === false) {
+                    throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded file could not be saved."));
                 }
 
-                if ($error) {
-                    $e = new Horde_Data_Exception_Charset(Horde_Data_Translation::t("Incorrect charset given for the data."));
-                    $e->badCharset = $charset;
-                    throw $e;
-                }
-            }
+                /* Do charset checking now, if requested. */
+                if (isset($param['check_charset'])) {
+                    $charset = isset($this->_vars->charset)
+                        ? Horde_String::lower($this->_vars->charset)
+                        : 'utf-8';
 
-            $this->storage->set('charset', $this->_vars->charset);
-            $this->storage->set('file_data', $file_data);
+                    switch ($charset) {
+                        case 'utf-8':
+                            $error = !Horde_String::validUtf8($file_data);
+                            break;
 
-            /* Read the file's first two lines to show them to the user. */
-            $first_lines = '';
-            if ($fp = @fopen($file_name, 'r')) {
-                for ($line_no = 1, $line = fgets($fp);
-                     $line_no <= 3 && $line;
-                     $line_no++, $line = fgets($fp)) {
-                    $line = Horde_String::convertCharset($line, $this->_vars->charset, 'UTF-8');
-                    $first_lines .= Horde_String::truncate($line);
-                    if (Horde_String::length($line) > 100) {
-                        $first_lines .= "\n";
+                        default:
+                            $error = ($file_data != Horde_String::convertCharset(Horde_String::convertCharset($file_data, $charset, 'UTF-8'), 'UTF-8', $charset));
+                            break;
+                    }
+
+                    if ($error) {
+                        $e = new Horde_Data_Exception_Charset(Horde_Data_Translation::t("Incorrect charset given for the data."));
+                        $e->badCharset = $charset;
+                        throw $e;
                     }
                 }
-            }
-            $this->storage->set('first_lines', $first_lines);
 
-            /* Import the first line to guess the number of fields. */
-            if ($first_lines) {
-                rewind($fp);
-                $line = self::getCsv($fp);
-                if ($line) {
-                    $this->storage->set('fields', count($line));
+                $this->storage->set('charset', $this->_vars->charset);
+                $this->storage->set('file_data', $file_data);
+
+                /* Read the file's first two lines to show them to the user. */
+                $first_lines = '';
+                if ($fp = @fopen($file_name, 'r')) {
+                    for ($line_no = 1, $line = fgets($fp);
+                        $line_no <= 3 && $line;
+                        $line_no++, $line = fgets($fp)) {
+                        $line = Horde_String::convertCharset($line, $this->_vars->charset, 'UTF-8');
+                        $first_lines .= Horde_String::truncate($line);
+                        if (Horde_String::length($line) > 100) {
+                            $first_lines .= "\n";
+                        }
+                    }
                 }
-            }
+                $this->storage->set('first_lines', $first_lines);
 
-            return Horde_Data::IMPORT_CSV;
+                /* Import the first line to guess the number of fields. */
+                if ($first_lines) {
+                    rewind($fp);
+                    $line = self::getCsv($fp);
+                    if ($line) {
+                        $this->storage->set('fields', count($line));
+                    }
+                }
 
-        case Horde_Data::IMPORT_CSV:
-            $this->storage->set('header', $this->_vars->header);
-            $import_mapping = array();
-            if (isset($param['import_mapping'])) {
-                $import_mapping = $param['import_mapping'];
-            }
+                return Horde_Data::IMPORT_CSV;
 
-            $file_name = Horde_Util::getTempFile('import');
-            file_put_contents($file_name, $this->storage->get('file_data'));
+            case Horde_Data::IMPORT_CSV:
+                $this->storage->set('header', $this->_vars->header);
+                $import_mapping = [];
+                if (isset($param['import_mapping'])) {
+                    $import_mapping = $param['import_mapping'];
+                }
 
-            $this->storage->set('data', $this->importFile(
-                $file_name,
-                $this->_vars->header,
-                $this->_vars->sep,
-                $this->_vars->quote,
-                $this->_vars->fields,
-                $import_mapping,
-                $this->storage->get('charset'),
-                $this->storage->get('crlf')
-            ));
-            $this->storage->set('map');
-            return Horde_Data::IMPORT_MAPPED;
+                $file_name = Horde_Util::getTempFile('import');
+                file_put_contents($file_name, $this->storage->get('file_data'));
 
-        default:
-            return parent::nextStep($action, $param);
+                $this->storage->set('data', $this->importFile(
+                    $file_name,
+                    $this->_vars->header,
+                    $this->_vars->sep,
+                    $this->_vars->quote,
+                    $this->_vars->fields,
+                    $import_mapping,
+                    $this->storage->get('charset'),
+                    $this->storage->get('crlf')
+                ));
+                $this->storage->set('map');
+                return Horde_Data::IMPORT_MAPPED;
+
+            default:
+                return parent::nextStep($action, $param);
         }
     }
 
@@ -310,13 +321,13 @@ class Horde_Data_Csv extends Horde_Data_Base
      * @return array|boolean  A row from the CSV file or false on error or end
      *                        of file.
      */
-    public static function getCsv($file, array $params = array())
+    public static function getCsv($file, array $params = [])
     {
-        $params += array(
+        $params += [
             'escape' => '\\',
             'quote' => '"',
-            'separator' => ','
-        );
+            'separator' => ',',
+        ];
 
         // fgetcsv() throws a warning if the quote character is empty.
         if (!strlen($params['quote']) && ($params['escape'] != '\\')) {

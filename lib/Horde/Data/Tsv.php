@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -54,7 +55,7 @@ class Horde_Data_Tsv extends Horde_Data_Base
         }
 
         $contents = explode("\n", $contents);
-        $data = array();
+        $data = [];
         if ($header) {
             $head = explode($delimiter, array_shift($contents));
         }
@@ -67,7 +68,7 @@ class Horde_Data_Tsv extends Horde_Data_Base
             if (!isset($head)) {
                 $data[] = $line;
             } else {
-                $newline = array();
+                $newline = [];
                 for ($i = 0; $i < count($head); $i++) {
                     $newline[$head[$i]] = empty($line[$i]) ? '' : $line[$i];
                 }
@@ -146,115 +147,115 @@ class Horde_Data_Tsv extends Horde_Data_Base
      *                data set after the final step.
      * @throws Horde_Data_Exception
      */
-    public function nextStep($action, array $param = array())
+    public function nextStep($action, array $param = [])
     {
         switch ($action) {
-        case Horde_Data::IMPORT_FILE:
-            parent::nextStep($action, $param);
+            case Horde_Data::IMPORT_FILE:
+                parent::nextStep($action, $param);
 
-            $format = $this->storage->get('format');
-            if (in_array($format, array('mulberry', 'pine'))) {
-                $filedata = $this->importFile($_FILES['import_file']['tmp_name']);
-
-                switch ($format) {
-                case 'mulberry':
-                    $appKeys  = array('alias', 'name', 'email', 'company', 'workAddress', 'workPhone', 'homePhone', 'fax', 'notes');
-                    $dataKeys = array(0, 1, 2, 3, 4, 5, 6, 7, 9);
-                    break;
-
-                case 'pine':
-                    $appKeys = array('alias', 'name', 'email', 'notes');
-                    $dataKeys = array(0, 1, 2, 4);
-                    break;
-                }
-
-                foreach ($appKeys as $key => $app) {
-                    $map[$dataKeys[$key]] = $app;
-                }
-
-                $data = array();
-                foreach ($filedata as $row) {
-                    $hash = array();
+                $format = $this->storage->get('format');
+                if (in_array($format, ['mulberry', 'pine'])) {
+                    $filedata = $this->importFile($_FILES['import_file']['tmp_name']);
 
                     switch ($format) {
-                    case 'mulberry':
-                        if (preg_match("/^Grp:/", $row[0]) || empty($row[1])) {
-                            continue;
-                        }
-                        $row[1] = preg_replace('/^([^,"]+),\s*(.*)$/', '$2 $1', $row[1]);
-                        foreach ($dataKeys as $key) {
-                            if (array_key_exists($key, $row)) {
-                                $hash[$key] = stripslashes(preg_replace('/\\\\r/', "\n", $row[$key]));
-                            }
-                        }
-                        break;
+                        case 'mulberry':
+                            $appKeys  = ['alias', 'name', 'email', 'company', 'workAddress', 'workPhone', 'homePhone', 'fax', 'notes'];
+                            $dataKeys = [0, 1, 2, 3, 4, 5, 6, 7, 9];
+                            break;
 
-                    case 'pine':
-                        if (count($row) < 3 || preg_match("/^#DELETED/", $row[0]) || preg_match("/[()]/", $row[2])) {
-                            continue;
-                        }
-                        $row[1] = preg_replace('/^([^,"]+),\s*(.*)$/', '$2 $1', $row[1]);
-                        /* Address can be a full RFC822 address */
-                        $addr_ob = new Horde_Mail_Rfc822_Address($row[2]);
-                        if (!$addr_ob->valid) {
-                            continue;
-                        }
-                        $row[2] = $addr_ob->bare_address;
-                        if (empty($row[1]) && !is_null($addr_ob->personal)) {
-                            $row[1] = $addr_ob->personal;
-                        }
-                        foreach ($dataKeys as $key) {
-                            if (array_key_exists($key, $row)) {
-                                $hash[$key] = $row[$key];
-                            }
-                        }
-                        break;
+                        case 'pine':
+                            $appKeys = ['alias', 'name', 'email', 'notes'];
+                            $dataKeys = [0, 1, 2, 4];
+                            break;
                     }
 
-                    $data[] = $hash;
+                    foreach ($appKeys as $key => $app) {
+                        $map[$dataKeys[$key]] = $app;
+                    }
+
+                    $data = [];
+                    foreach ($filedata as $row) {
+                        $hash = [];
+
+                        switch ($format) {
+                            case 'mulberry':
+                                if (preg_match("/^Grp:/", $row[0]) || empty($row[1])) {
+                                    continue;
+                                }
+                                $row[1] = preg_replace('/^([^,"]+),\s*(.*)$/', '$2 $1', $row[1]);
+                                foreach ($dataKeys as $key) {
+                                    if (array_key_exists($key, $row)) {
+                                        $hash[$key] = stripslashes(preg_replace('/\\\\r/', "\n", $row[$key]));
+                                    }
+                                }
+                                break;
+
+                            case 'pine':
+                                if (count($row) < 3 || preg_match("/^#DELETED/", $row[0]) || preg_match("/[()]/", $row[2])) {
+                                    continue;
+                                }
+                                $row[1] = preg_replace('/^([^,"]+),\s*(.*)$/', '$2 $1', $row[1]);
+                                /* Address can be a full RFC822 address */
+                                $addr_ob = new Horde_Mail_Rfc822_Address($row[2]);
+                                if (!$addr_ob->valid) {
+                                    continue;
+                                }
+                                $row[2] = $addr_ob->bare_address;
+                                if (empty($row[1]) && !is_null($addr_ob->personal)) {
+                                    $row[1] = $addr_ob->personal;
+                                }
+                                foreach ($dataKeys as $key) {
+                                    if (array_key_exists($key, $row)) {
+                                        $hash[$key] = $row[$key];
+                                    }
+                                }
+                                break;
+                        }
+
+                        $data[] = $hash;
+                    }
+
+                    $this->storage->set('data', $data);
+                    $this->storage->set('map', $map);
+
+                    return $this->nextStep(Horde_Data::IMPORT_DATA, $param);
                 }
 
-                $this->storage->set('data', $data);
-                $this->storage->set('map', $map);
-
-                return $this->nextStep(Horde_Data::IMPORT_DATA, $param);
-            }
-
-            /* Store uploaded file data so that we can read it again in the
-             * next step after the user gives some format details. */
-            try {
-                $this->_browser->wasFileUploaded('import_file', Horde_Data_Translation::t("TSV file"));
-            } catch (Horde_Browser_Exception $e) {
-                throw new Horde_Data_Exception($e);
-            }
-
-            $file_name = $_FILES['import_file']['tmp_name'];
-            if (($file_data = file_get_contents($file_name)) === false) {
-                throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded file could not be saved."));
-            }
-            $this->storage->set('file_data', $file_data);
-
-            /* Read the file's first two lines to show them to the user. */
-            $first_lines = '';
-            if ($fp = @fopen($file_name, 'r')) {
-                $line_no = 1;
-                while (($line_no < 3) && ($line = fgets($fp))) {
-                    $newline = Horde_String::length($line) > 100 ? "\n" : '';
-                    $first_lines .= substr($line, 0, 100) . $newline;
-                    ++$line_no;
+                /* Store uploaded file data so that we can read it again in the
+                 * next step after the user gives some format details. */
+                try {
+                    $this->_browser->wasFileUploaded('import_file', Horde_Data_Translation::t("TSV file"));
+                } catch (Horde_Browser_Exception $e) {
+                    throw new Horde_Data_Exception($e);
                 }
-            }
-            $this->storage->set('first_lines', $first_lines);
-            return Horde_Data::IMPORT_TSV;
 
-        case Horde_Data::IMPORT_TSV:
-            $file_name = Horde_Util::getTempFile('import');
-            file_put_contents($file_name, $this->storage->get('file_data'));
+                $file_name = $_FILES['import_file']['tmp_name'];
+                if (($file_data = file_get_contents($file_name)) === false) {
+                    throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded file could not be saved."));
+                }
+                $this->storage->set('file_data', $file_data);
 
-            $this->storage->set('header', $this->_vars->header);
-            $this->storage->set('data', $this->importFile($file_name, $this->storage->get('header')));
-            $this->storage->set('map');
-            return Horde_Data::IMPORT_MAPPED;
+                /* Read the file's first two lines to show them to the user. */
+                $first_lines = '';
+                if ($fp = @fopen($file_name, 'r')) {
+                    $line_no = 1;
+                    while (($line_no < 3) && ($line = fgets($fp))) {
+                        $newline = Horde_String::length($line) > 100 ? "\n" : '';
+                        $first_lines .= substr($line, 0, 100) . $newline;
+                        ++$line_no;
+                    }
+                }
+                $this->storage->set('first_lines', $first_lines);
+                return Horde_Data::IMPORT_TSV;
+
+            case Horde_Data::IMPORT_TSV:
+                $file_name = Horde_Util::getTempFile('import');
+                file_put_contents($file_name, $this->storage->get('file_data'));
+
+                $this->storage->set('header', $this->_vars->header);
+                $this->storage->set('data', $this->importFile($file_name, $this->storage->get('header')));
+                $this->storage->set('map');
+                return Horde_Data::IMPORT_MAPPED;
         }
 
         return parent::nextStep($action, $param);

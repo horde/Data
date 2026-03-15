@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -28,89 +29,89 @@ class Horde_Data
     /**
      * Import already mapped csv data.
      */
-    const IMPORT_MAPPED = 1;
+    public const IMPORT_MAPPED = 1;
 
     /**
      * Map date and time entries of csv data.
      */
-    const IMPORT_DATETIME =  2;
+    public const IMPORT_DATETIME =  2;
 
     /**
      * Import generic CSV data.
      */
-    const IMPORT_CSV = 3;
+    public const IMPORT_CSV = 3;
 
     /**
      * Import MS Outlook data.
      */
-    const IMPORT_OUTLOOK = 4;
+    public const IMPORT_OUTLOOK = 4;
 
     /**
      * Import vCalendar/iCalendar data.
      */
-    const IMPORT_ICALENDAR = 5;
+    public const IMPORT_ICALENDAR = 5;
 
     /**
      * Import vCards.
      */
-    const IMPORT_VCARD = 6;
+    public const IMPORT_VCARD = 6;
 
     /**
      * Import generic tsv data.
      */
-    const IMPORT_TSV = 7;
+    public const IMPORT_TSV = 7;
 
     /**
      * Import Mulberry address book data.
      */
-    const IMPORT_MULBERRY = 8;
+    public const IMPORT_MULBERRY = 8;
 
     /**
      * Import Pine address book data.
      */
-    const IMPORT_PINE = 9;
+    public const IMPORT_PINE = 9;
 
     /**
      * Import file.
      */
-    const IMPORT_FILE = 11;
+    public const IMPORT_FILE = 11;
 
     /**
      * Import data.
      */
-    const IMPORT_DATA = 12;
+    public const IMPORT_DATA = 12;
 
     /**
      * Import URL.
      *
      * @since Horde_Data 2.1.0
      */
-    const IMPORT_URL = 13;
+    public const IMPORT_URL = 13;
 
 
     /**
      * Export generic CSV data.
      */
-    const EXPORT_CSV = 100;
+    public const EXPORT_CSV = 100;
 
     /**
      * Export iCalendar data.
      */
-    const EXPORT_ICALENDAR = 101;
+    public const EXPORT_ICALENDAR = 101;
 
     /**
      * Export vCards.
      */
-    const EXPORT_VCARD = 102;
+    public const EXPORT_VCARD = 102;
 
     /**
      * Export TSV data.
      */
-    const EXPORT_TSV = 103;
+    public const EXPORT_TSV = 103;
 
     /**
      * Export Outlook CSV data.
      */
-    const EXPORT_OUTLOOKCSV = 104;
+    public const EXPORT_OUTLOOKCSV = 104;
 
 }

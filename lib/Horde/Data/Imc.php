@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -98,16 +99,16 @@ class Horde_Data_Imc extends Horde_Data_Base
      *                data set after the final step.
      * @throws Horde_Data_Exception
      */
-    public function nextStep($action, array $param = array())
+    public function nextStep($action, array $param = [])
     {
         switch ($action) {
-        case Horde_Data::IMPORT_FILE:
-            parent::nextStep($action, $param);
-            return $this->importFile($_FILES['import_file']['tmp_name']);
+            case Horde_Data::IMPORT_FILE:
+                parent::nextStep($action, $param);
+                return $this->importFile($_FILES['import_file']['tmp_name']);
 
-        case Horde_Data::IMPORT_URL:
-            parent::nextStep($action, $param);
-            return $this->importUrl($this->_vars->import_url);
+            case Horde_Data::IMPORT_URL:
+                parent::nextStep($action, $param);
+                return $this->importUrl($this->_vars->import_url);
         }
 
         return parent::nextStep($action, $param);

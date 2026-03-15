@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -78,7 +79,7 @@ abstract class Horde_Data_Base
      *
      * @var array
      */
-    protected $_warnings = array();
+    protected $_warnings = [];
 
     /**
      * Constructor.
@@ -90,9 +91,10 @@ abstract class Horde_Data_Base
      *   - cleanup: (callback) A callback to call at cleanup time.
      *   - vars: (Horde_Variables) Form data.
      */
-    public function __construct(Horde_Data_Storage $storage,
-                                array $params = array())
-    {
+    public function __construct(
+        Horde_Data_Storage $storage,
+        array $params = []
+    ) {
         $this->storage = $storage;
         if (isset($params['browser'])) {
             $this->_browser = $params['browser'];
@@ -103,17 +105,14 @@ abstract class Horde_Data_Base
         if (isset($params['cleanup']) && is_callable($params['cleanup'])) {
             $this->_cleanupCallback = $params['cleanup'];
         }
-        $this->_vars = isset($params['vars'])
-            ? $params['vars']
-            : Horde_Variables::getDefaultVariables();
+        $this->_vars = $params['vars']
+            ?? Horde_Variables::getDefaultVariables();
     }
 
     /**
      * Stub to import passed data.
      */
-    public function importData($text)
-    {
-    }
+    public function importData($text) {}
 
     /**
      * Stub to return exported data.
@@ -175,15 +174,15 @@ abstract class Horde_Data_Base
         }
 
         switch ($this->_browser->getPlatform()) {
-        case 'win':
-            return "\r\n";
+            case 'win':
+                return "\r\n";
 
-        case 'mac':
-            return "\r";
+            case 'mac':
+                return "\r";
 
-        case 'unix':
-        default:
-            return "\n";
+            case 'unix':
+            default:
+                return "\n";
         }
     }
 
@@ -240,56 +239,56 @@ abstract class Horde_Data_Base
     protected function _mapDate($date, $type, $params, $key)
     {
         switch ($type) {
-        case 'date':
-        case 'monthday':
-        case 'monthdayyear':
-            $dates = explode($params['delimiter'][$key], $date);
-            if (count($dates) != 3) {
-                return $date;
-            }
-            $index = array_flip(explode('/', $params['format'][$key]));
-            return $dates[$index['year']] . '-' . $dates[$index['month']] . '-' . $dates[$index['mday']];
-
-        case 'time':
-            $dates = explode($params['delimiter'][$key], $date);
-            if (count($dates) < 2 || count($dates) > 3) {
-                return $date;
-            }
-            if ($params['format'][$key] == 'ampm') {
-                if (strpos(Horde_String::lower($dates[count($dates)-1]), 'pm') !== false) {
-                    if ($dates[0] !== '12') {
-                        $dates[0] += 12;
-                    }
-                } elseif ($dates[0] == '12') {
-                    $dates[0] = '0';
+            case 'date':
+            case 'monthday':
+            case 'monthdayyear':
+                $dates = explode($params['delimiter'][$key], $date);
+                if (count($dates) != 3) {
+                    return $date;
                 }
-                $dates[count($dates) - 1] = sprintf('%02d', $dates[count($dates)-1]);
-            }
-            return $dates[0] . ':' . $dates[1] . (count($dates) == 3 ? (':' . $dates[2]) : ':00');
+                $index = array_flip(explode('/', $params['format'][$key]));
+                return $dates[$index['year']] . '-' . $dates[$index['month']] . '-' . $dates[$index['mday']];
 
-        case 'datetime':
-            switch ($params['order'][$key]) {
-            case -1:
-                return (string)(int)$date == $date
-                    ? date('Y-m-d H:i:s', $date)
-                    : $date;
-            case 0:
-                list($day, $time) = explode(' ', $date, 2);
-                break;
-            case 1:
-               list($time, $day) = explode(' ', $date, 2);
-               break;
-            }
-            $date = $this->_mapDate($day, 'date', array(
-                'delimiter' => $params['day_delimiter'],
-                'format' => $params['day_format']
-            ), $key);
-            $time = $this->_mapDate($time, 'time', array(
-                'delimiter' => $params['time_delimiter'],
-                'format' => $params['time_format']
-            ), $key);
+            case 'time':
+                $dates = explode($params['delimiter'][$key], $date);
+                if (count($dates) < 2 || count($dates) > 3) {
+                    return $date;
+                }
+                if ($params['format'][$key] == 'ampm') {
+                    if (strpos(Horde_String::lower($dates[count($dates) - 1]), 'pm') !== false) {
+                        if ($dates[0] !== '12') {
+                            $dates[0] += 12;
+                        }
+                    } elseif ($dates[0] == '12') {
+                        $dates[0] = '0';
+                    }
+                    $dates[count($dates) - 1] = sprintf('%02d', $dates[count($dates) - 1]);
+                }
+                return $dates[0] . ':' . $dates[1] . (count($dates) == 3 ? (':' . $dates[2]) : ':00');
 
-            return $date . ' ' . $time;
+            case 'datetime':
+                switch ($params['order'][$key]) {
+                    case -1:
+                        return (string) (int) $date == $date
+                            ? date('Y-m-d H:i:s', $date)
+                            : $date;
+                    case 0:
+                        [$day, $time] = explode(' ', $date, 2);
+                        break;
+                    case 1:
+                        [$time, $day] = explode(' ', $date, 2);
+                        break;
+                }
+                $date = $this->_mapDate($day, 'date', [
+                    'delimiter' => $params['day_delimiter'],
+                    'format' => $params['day_format'],
+                ], $key);
+                $time = $this->_mapDate($time, 'time', [
+                    'delimiter' => $params['time_delimiter'],
+                    'format' => $params['time_format'],
+                ], $key);
+
+                return $date . ' ' . $time;
         }
     }
 
@@ -305,7 +304,7 @@ abstract class Horde_Data_Base
      *                data set after the final step.
      * @throws Horde_Data_Exception
      */
-    public function nextStep($action, array $param = array())
+    public function nextStep($action, array $param = [])
     {
         /* First step. */
         if (is_null($action)) {
@@ -313,103 +312,103 @@ abstract class Horde_Data_Base
         }
 
         switch ($action) {
-        case Horde_Data::IMPORT_FILE:
-            if (!isset($this->_browser)) {
-                throw new LogicException('Missing browser parameter.');
-            }
-            /* Sanitize uploaded file. */
-            try {
-                $this->_browser->wasFileUploaded('import_file', $param['file_types'][$this->_vars->import_format]);
-            } catch (Horde_Exception $e) {
-                throw new Horde_Data_Exception($e);
-            }
-            if ($_FILES['import_file']['size'] <= 0) {
-                throw new Horde_Data_Exception(Horde_Data_Translation::t("The file contained no data."));
-            }
-            $this->storage->set('format', $this->_vars->import_format);
-            break;
+            case Horde_Data::IMPORT_FILE:
+                if (!isset($this->_browser)) {
+                    throw new LogicException('Missing browser parameter.');
+                }
+                /* Sanitize uploaded file. */
+                try {
+                    $this->_browser->wasFileUploaded('import_file', $param['file_types'][$this->_vars->import_format]);
+                } catch (Horde_Exception $e) {
+                    throw new Horde_Data_Exception($e);
+                }
+                if ($_FILES['import_file']['size'] <= 0) {
+                    throw new Horde_Data_Exception(Horde_Data_Translation::t("The file contained no data."));
+                }
+                $this->storage->set('format', $this->_vars->import_format);
+                break;
 
-        case Horde_Data::IMPORT_MAPPED:
-            if (!$this->_vars->dataKeys || !$this->_vars->appKeys) {
-                throw new Horde_Data_Exception(Horde_Data_Translation::t("You didn\'t map any fields from the imported file to the corresponding fields."));
-            }
-            $dataKeys = explode("\t", $this->_vars->dataKeys);
-            $appKeys = explode("\t", $this->_vars->appKeys);
-            $dates = $map = array();
+            case Horde_Data::IMPORT_MAPPED:
+                if (!$this->_vars->dataKeys || !$this->_vars->appKeys) {
+                    throw new Horde_Data_Exception(Horde_Data_Translation::t("You didn\'t map any fields from the imported file to the corresponding fields."));
+                }
+                $dataKeys = explode("\t", $this->_vars->dataKeys);
+                $appKeys = explode("\t", $this->_vars->appKeys);
+                $dates = $map = [];
 
-            if (!$import_data = $this->storage->get('data')) {
-                $import_data = array();
-            }
+                if (!$import_data = $this->storage->get('data')) {
+                    $import_data = [];
+                }
 
-            foreach ($appKeys as $key => $app) {
-                $map[$dataKeys[$key]] = $app;
-                if (isset($param['time_fields']) &&
-                    isset($param['time_fields'][$app])) {
-                    $dates[$dataKeys[$key]]['type'] = $param['time_fields'][$app];
-                    $dates[$dataKeys[$key]]['values'] = array();
-                    $i = 0;
-                    /* Build an example array of up to 10 date/time fields. */
-                    while ($i < count($import_data) &&
-                           count($dates[$dataKeys[$key]]['values']) < 10) {
-                        if (!empty($import_data[$i][$dataKeys[$key]])) {
-                            $dates[$dataKeys[$key]]['values'][] = $import_data[$i][$dataKeys[$key]];
+                foreach ($appKeys as $key => $app) {
+                    $map[$dataKeys[$key]] = $app;
+                    if (isset($param['time_fields'])
+                        && isset($param['time_fields'][$app])) {
+                        $dates[$dataKeys[$key]]['type'] = $param['time_fields'][$app];
+                        $dates[$dataKeys[$key]]['values'] = [];
+                        $i = 0;
+                        /* Build an example array of up to 10 date/time fields. */
+                        while ($i < count($import_data)
+                               && count($dates[$dataKeys[$key]]['values']) < 10) {
+                            if (!empty($import_data[$i][$dataKeys[$key]])) {
+                                $dates[$dataKeys[$key]]['values'][] = $import_data[$i][$dataKeys[$key]];
+                            }
+                            ++$i;
                         }
-                        ++$i;
                     }
                 }
-            }
 
-            $this->storage->set('map', $map);
-            if (count($dates) > 0) {
-                foreach ($dates as $key => $data) {
-                    if (count($data['values'])) {
-                        $this->storage->set('dates', $dates);
-                        return Horde_Data::IMPORT_DATETIME;
-                    }
-                }
-            }
-            return $this->nextStep(Horde_Data::IMPORT_DATA, $param);
-
-        case Horde_Data::IMPORT_DATETIME:
-        case Horde_Data::IMPORT_DATA:
-            if ($action == Horde_Data::IMPORT_DATETIME) {
-                $params = array(
-                    'delimiter' => $this->_vars->delimiter,
-                    'format' => $this->_vars->format,
-                    'order' => $this->_vars->order,
-                    'day_delimiter' => $this->_vars->day_delimiter,
-                    'day_format' => $this->_vars->day_format,
-                    'time_delimiter' => $this->_vars->time_delimiter,
-                    'time_format' => $this->_vars->time_format
-                );
-            }
-
-            if (!$this->storage->exists('data')) {
-                throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded data was lost since the previous step."));
-            }
-
-            /* Build the result data set as an associative array. */
-            $data = array();
-            $data_map = $this->storage->get('map');
-
-            foreach ($this->storage->get('data') as $row) {
-                $data_row = array();
-                foreach ($row as $key => $val) {
-                    if (isset($data_map[$key])) {
-                        $mapped_key = $data_map[$key];
-                        if ($action == Horde_Data::IMPORT_DATETIME &&
-                            !empty($val) &&
-                            isset($param['time_fields']) &&
-                            isset($param['time_fields'][$mapped_key])) {
-                            $val = $this->_mapDate($val, $param['time_fields'][$mapped_key], $params, $key);
+                $this->storage->set('map', $map);
+                if (count($dates) > 0) {
+                    foreach ($dates as $key => $data) {
+                        if (count($data['values'])) {
+                            $this->storage->set('dates', $dates);
+                            return Horde_Data::IMPORT_DATETIME;
                         }
-                        $data_row[$mapped_key] = $val;
                     }
                 }
-                $data[] = $data_row;
-            }
+                return $this->nextStep(Horde_Data::IMPORT_DATA, $param);
 
-            return $data;
+            case Horde_Data::IMPORT_DATETIME:
+            case Horde_Data::IMPORT_DATA:
+                if ($action == Horde_Data::IMPORT_DATETIME) {
+                    $params = [
+                        'delimiter' => $this->_vars->delimiter,
+                        'format' => $this->_vars->format,
+                        'order' => $this->_vars->order,
+                        'day_delimiter' => $this->_vars->day_delimiter,
+                        'day_format' => $this->_vars->day_format,
+                        'time_delimiter' => $this->_vars->time_delimiter,
+                        'time_format' => $this->_vars->time_format,
+                    ];
+                }
+
+                if (!$this->storage->exists('data')) {
+                    throw new Horde_Data_Exception(Horde_Data_Translation::t("The uploaded data was lost since the previous step."));
+                }
+
+                /* Build the result data set as an associative array. */
+                $data = [];
+                $data_map = $this->storage->get('map');
+
+                foreach ($this->storage->get('data') as $row) {
+                    $data_row = [];
+                    foreach ($row as $key => $val) {
+                        if (isset($data_map[$key])) {
+                            $mapped_key = $data_map[$key];
+                            if ($action == Horde_Data::IMPORT_DATETIME
+                                && !empty($val)
+                                && isset($param['time_fields'])
+                                && isset($param['time_fields'][$mapped_key])) {
+                                $val = $this->_mapDate($val, $param['time_fields'][$mapped_key], $params, $key);
+                            }
+                            $data_row[$mapped_key] = $val;
+                        }
+                    }
+                    $data[] = $data_row;
+                }
+
+                return $data;
         }
     }
 
