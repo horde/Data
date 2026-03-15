@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/data",
     "description": "Data import and export library",
     "type": "library",
@@ -17,15 +16,10 @@
             "role": "developer"
         }
     ],
-    "time": "2022-11-04",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
-        }
-    ],
+    "time": "2026-03-15",
+    "repositories": [],
     "require": {
-        "php": "^7.4 || ^8",
+        "php": "^8",
         "horde/browser": "^3 || dev-FRAMEWORK_6_0",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
@@ -49,8 +43,11 @@
         }
     },
     "config": {
-        "allow-plugins": {
-            "horde/horde-installer-plugin": true
+        "allow-plugins": {}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-FRAMEWORK_6_0": "3.x-dev"
         }
     }
 }
