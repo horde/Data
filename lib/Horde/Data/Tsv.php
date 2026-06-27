@@ -1,5 +1,7 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
  * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
@@ -249,7 +251,7 @@ class Horde_Data_Tsv extends Horde_Data_Base
                 return Horde_Data::IMPORT_TSV;
 
             case Horde_Data::IMPORT_TSV:
-                $file_name = Horde_Util::getTempFile('import');
+                $file_name = Util::getTempFile('import');
                 file_put_contents($file_name, $this->storage->get('file_data'));
 
                 $this->storage->set('header', $this->_vars->header);

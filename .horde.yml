@@ -8,14 +8,12 @@ list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Data
 authors:
-  -
-    name: Jan Schneider
+  - name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
     role: lead
-  -
-    name: Chuck Hagenbuch
+  - name: Chuck Hagenbuch
     user: chuck
     email: chuck@horde.org
     active: false
@@ -44,3 +42,56 @@ dependencies:
     composer:
       horde/test: ^3
 vendor: horde
+keywords: null
+ci-platform:
+  '8.0':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.1':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.2':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.3':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.4':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.5':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+  '8.6':
+    - php: '>=7.2'
+    - ext-dom
+    - ext-hash
+    - ext-pcre
+    - ext-simplexml
+    - ext-spl
+ci-platform-flags:
+  needs_installer_plugin: false

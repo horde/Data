@@ -1,5 +1,7 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
  * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
@@ -281,7 +283,7 @@ class Horde_Data_Csv extends Horde_Data_Base
                     $import_mapping = $param['import_mapping'];
                 }
 
-                $file_name = Horde_Util::getTempFile('import');
+                $file_name = Util::getTempFile('import');
                 file_put_contents($file_name, $this->storage->get('file_data'));
 
                 $this->storage->set('data', $this->importFile(
